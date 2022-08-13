@@ -14,6 +14,7 @@ const simplelightbox = new SimpleLightbox(".gallery a");
 refs.searchForm.addEventListener("submit", onSubmit);
 refs.loadMoreBtn.addEventListener("click", onLoadMore);
 
+
 function onSubmit(e) {
   e.preventDefault();
   clearContent();
@@ -21,19 +22,21 @@ function onSubmit(e) {
 
   imagesApiService.resetPage();
   imagesApiService.searchQuery = e.target.searchQuery.value.trim();
-  imagesApiService.fetchImages()
-    .then(photoCards => {
-      if (photoCards.hits.length === 0) {
-        Notify.failure("Sorry, there are no images matching your search query. Please try again.");
-        return;
-    } else {
-        Notify.success(`Hooray! We found ${photoCards.totalHits} images.`);
-        refs.loadMoreBtn.classList.remove("load-more--unvisible");
-        innerContent(photoCards);
-        simplelightbox.refresh();
-      }
-      checkGallerysEnd();
-    });
+  if (imagesApiService.searchQuery !== '') {
+    imagesApiService.fetchImages()
+      .then(photoCards => {
+        if (photoCards.hits.length === 0) {
+          Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+          return;
+      } else {
+          Notify.success(`Hooray! We found ${photoCards.totalHits} images.`);
+          refs.loadMoreBtn.classList.remove("load-more--unvisible");
+          innerContent(photoCards);
+          simplelightbox.refresh();
+        }
+        checkGallerysEnd();
+      });
+  }
 }
 
 function onLoadMore() {
