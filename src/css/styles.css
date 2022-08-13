@@ -1,0 +1,125 @@
+body {
+    margin: 0;
+    padding-top: 70px;
+}
+
+a {
+    text-decoration: none;
+}
+
+img {
+    display: block;
+}
+
+.searchForm-wrapper {
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 50px;
+    background: linear-gradient(to right,#E6F068, #2C7CEF);
+}
+
+.search-form {  
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-form input {
+    height: 30px;
+    width: 200px;
+    padding-right: 50px;
+    padding-left: 10px;
+    font-size: 16px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    outline: 1px solid transparent;
+}
+
+.search-form button {
+    position: absolute;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    width: 40px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    border-radius: 0 4px 4px 0;
+    background: rgba(33, 33, 33, 0.2);
+    cursor: pointer;
+}
+
+
+.gallery-container {
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+    max-width: 1460px;
+    text-align: center;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -30px;
+    margin-top: -30px;
+    margin-bottom: 30px;
+}
+
+.photo-card {
+    display: flex;
+    flex-direction: column;
+    flex-basis: calc(100% / 4 - 30px);
+    margin-left: 30px;
+    margin-top: 30px;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+            0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+}
+
+.info {
+    display: flex;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: center;
+}
+
+.info-item:not(:last-child) {
+    margin-right: 5px;
+}
+
+.gallery__item {
+    height: 250px;
+}
+
+.gallery__image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.load-more {
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    border: 1px solid transparent;
+    background: rgba(22, 108, 207, 0.629);
+    transition: background 300ms cubic-bezier(0.075, 0.82, 0.165, 1); 
+    cursor: pointer;
+}
+
+.load-more:hover {
+    background: rgba(22, 108, 207, 0.8);
+}
+
+.load-more--unvisible {
+    display: none;
+}
