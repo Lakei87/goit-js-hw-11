@@ -2,6 +2,7 @@ import ImagesApiService from "./js/imagesService";
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
+// import InfiniteScroll from "infinite-scroll";
 
 const refs = {
   searchForm: document.querySelector(".search-form"),
@@ -13,12 +14,17 @@ const simplelightbox = new SimpleLightbox(".gallery a");
 
 refs.searchForm.addEventListener("submit", onSubmit);
 refs.loadMoreBtn.addEventListener("click", onLoadMore);
+window.addEventListener("scroll", () => {
+  if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight) {
+    onLoadMore();
+    smoothScroll();
+  }
+})
 
 
 function onSubmit(e) {
   e.preventDefault();
   clearContent();
-  refs.loadMoreBtn.classList.add("load-more--unvisible");
 
   imagesApiService.resetPage();
   imagesApiService.searchQuery = e.target.searchQuery.value.trim();
@@ -30,7 +36,6 @@ function onSubmit(e) {
           return;
       } else {
           Notify.success(`Hooray! We found ${photoCards.totalHits} images.`);
-          refs.loadMoreBtn.classList.remove("load-more--unvisible");
           innerContent(photoCards);
           simplelightbox.refresh();
         }
@@ -44,12 +49,11 @@ function onLoadMore() {
     .then(photoCards => {
       checkGallerysEnd();
       innerContent(photoCards);
-      smoothScroll();
       simplelightbox.refresh();
     });
 }
-
-
+  
+  
 function createPhotoCard(card) {
   return `<div class="photo-card">
   <a class="gallery__item" href="${card.largeImageURL}">
@@ -90,7 +94,6 @@ function clearContent() {
 
 function checkGallerysEnd() {
   if (imagesApiService.isGallerysEnd) {
-    refs.loadMoreBtn.classList.add("load-more--unvisible");
     Notify.info("We're sorry, but you've reached the end of search results.");
   }
 }

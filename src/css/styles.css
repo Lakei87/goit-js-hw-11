@@ -106,20 +106,5 @@ img {
 }
 
 .load-more {
-    width: 100px;
-    height: 40px;
-    border-radius: 5px;
-    margin-bottom: 30px;
-    border: 1px solid transparent;
-    background: rgba(22, 108, 207, 0.629);
-    transition: background 300ms cubic-bezier(0.075, 0.82, 0.165, 1); 
-    cursor: pointer;
-}
-
-.load-more:hover {
-    background: rgba(22, 108, 207, 0.8);
-}
-
-.load-more--unvisible {
     display: none;
 }
