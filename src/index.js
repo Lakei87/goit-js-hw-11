@@ -16,9 +16,8 @@ const simplelightbox = new SimpleLightbox(".gallery a");
 
 refs.searchForm.addEventListener("submit", onSubmit);
 refs.loadMoreBtn.addEventListener("click", onLoadMore);
-refs.toUpBtn.addEventListener("click", onClickToUpBtm)
-window.addEventListener("scroll", throttle(onScroll, 500))
-
+refs.toUpBtn.addEventListener("click", onClickToUpBtm);
+window.addEventListener("scroll", throttle(onScroll, 500));
 
 function onSubmit(e) {
   e.preventDefault();
@@ -55,7 +54,9 @@ function onLoadMore() {
 function onScroll() {
   window.scrollY > 7000 ? refs.toUpBtn.classList.remove("is-hidden") : refs.toUpBtn.classList.add("is-hidden");
   if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 150) {
-    onLoadMore();
+    if (!imagesApiService.isGallerysEnd) {
+      onLoadMore();
+    }
   }
 }
 
