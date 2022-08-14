@@ -2,46 +2,44 @@ import ImagesApiService from "./js/imagesService";
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
+import throttle from "lodash.throttle";
 // import InfiniteScroll from "infinite-scroll";
 
 const refs = {
   searchForm: document.querySelector(".search-form"),
   gallery: document.querySelector(".gallery"),
   loadMoreBtn: document.querySelector(".load-more"),
+  toUpBtn: document.querySelector(".toUp"),
 }
 const imagesApiService = new ImagesApiService();
 const simplelightbox = new SimpleLightbox(".gallery a");
 
 refs.searchForm.addEventListener("submit", onSubmit);
 refs.loadMoreBtn.addEventListener("click", onLoadMore);
-window.addEventListener("scroll", () => {
-  if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight) {
-    onLoadMore();
-    smoothScroll();
-  }
-})
+refs.toUpBtn.addEventListener("click", onClickToUpBtm)
+window.addEventListener("scroll", throttle(onScroll, 500))
 
 
 function onSubmit(e) {
   e.preventDefault();
   clearContent();
-
+  
   imagesApiService.resetPage();
   imagesApiService.searchQuery = e.target.searchQuery.value.trim();
   if (imagesApiService.searchQuery !== '') {
     imagesApiService.fetchImages()
-      .then(photoCards => {
-        if (photoCards.hits.length === 0) {
+    .then(photoCards => {
+      if (photoCards.hits.length === 0) {
           Notify.failure("Sorry, there are no images matching your search query. Please try again.");
           return;
       } else {
-          Notify.success(`Hooray! We found ${photoCards.totalHits} images.`);
+        Notify.success(`Hooray! We found ${photoCards.totalHits} images.`);
           innerContent(photoCards);
           simplelightbox.refresh();
         }
         checkGallerysEnd();
       });
-  }
+    }
 }
 
 function onLoadMore() {
@@ -49,10 +47,24 @@ function onLoadMore() {
     .then(photoCards => {
       checkGallerysEnd();
       innerContent(photoCards);
+      smoothScroll();
       simplelightbox.refresh();
     });
 }
-  
+
+function onScroll() {
+  window.scrollY > 7000 ? refs.toUpBtn.classList.remove("is-hidden") : refs.toUpBtn.classList.add("is-hidden");
+  if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 150) {
+    onLoadMore();
+  }
+}
+
+function onClickToUpBtm() {
+  window.scrollTo({
+  top: 0,
+  behavior: 'smooth'
+  });
+}
   
 function createPhotoCard(card) {
   return `<div class="photo-card">

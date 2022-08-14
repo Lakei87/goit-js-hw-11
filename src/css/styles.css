@@ -108,3 +108,26 @@ img {
 .load-more {
     display: none;
 }
+
+.toUp {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background-image: url(../images/toTopBtn.png);
+    background-position: center;
+    cursor: pointer;
+    scale: 1;
+    transition: scale 300ms ease-out;
+}
+
+.toUp:hover {
+    scale: 1.1;
+}
+
+.toUp.is-hidden {
+    display: none;
+}
